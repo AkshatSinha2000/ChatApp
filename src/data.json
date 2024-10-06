@@ -1,0 +1,79 @@
+[
+  {
+        "id" : 1,
+      "name": "Alice Smith",
+      "phoneNumber": "123-456-7890",
+      "profileImg": "AS",
+      "color":"red"
+  },
+  {
+    "id" : 2,
+      "name": "Bob Johnson",
+      "phoneNumber": "987-654-3210",
+      "profileImg": "BJ",
+      "color":"firebrick"
+  },
+  {
+    "id" : 3,
+      "name": "Charlie Brown",
+      "phoneNumber": "555-123-4567",
+      "profileImg": "CB",
+      "color":"burlywood"
+  },
+  {
+    "id" : 4,
+      "name": "David Wilson",
+      "phoneNumber": "444-567-8901",
+      "profileImg": "DW",
+      "color":"cyan"
+  },
+  {
+    "id" : 5,
+      "name": "Alice Wonder",
+      "phoneNumber": "123-456-7899",
+      "profileImg": "AW",
+      "color":"darkgreen"
+  },
+  {
+    "id" : 6,
+      "name": "Cassio Zen",
+      "phoneNumber": "123-456-7990",
+      "profileImg": "CZ",
+      "color":"darkgrey"
+  },
+  {
+    "id" :7,
+      "name": "Dan Abramov",
+      "phoneNumber": "123-456-7800",
+      "profileImg": "DA",
+      "color":"darkkhaki"
+  },
+  {
+    "id" : 8,
+      "name": "Alice Doe",
+      "phoneNumber": "123-456-9890",
+      "profileImg": "AD",
+      "color":"deepskyblue"
+  },
+  {
+    "id" : 9,
+      "name": "John Smith",
+      "phoneNumber": "123-459-7890",
+      "profileImg": "JS",
+      "color":"grey"
+  },
+  {
+    "id" : 10,
+      "name": "John Doe",
+      "phoneNumber": "173-456-7890",
+      "profileImg": "JD",
+      "color":"darkgrey"
+  },
+  {
+    "id" : 11,
+      "name": "John Stone",
+      "phoneNumber": "113-456-7890",
+      "profileImg": "JS",
+      "color":"aqua"
+  }
+]
