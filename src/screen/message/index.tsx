@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect, useRef } from 'react';
+import React, {useState, useCallback, useEffect, useRef} from 'react';
 import {
   Dimensions,
   Image,
@@ -12,7 +12,12 @@ import {
 import icon from '../../assets/icon/index';
 import family from '../../assets/fonts/index';
 import styles from './Styles';
-import { Bubble, GiftedChat, InputToolbar, IMessage } from 'react-native-gifted-chat';
+import {
+  Bubble,
+  GiftedChat,
+  InputToolbar,
+  IMessage,
+} from 'react-native-gifted-chat';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import DropDownContent from '../../components/DropDownContent';
@@ -41,7 +46,7 @@ interface MessageProps {
   };
 }
 
-const Message: React.FC<MessageProps> = ({ route, navigation }) => {
+const Message: React.FC<MessageProps> = ({route, navigation}) => {
   const user = route.params.data;
   const [toggle, setToggle] = useState<boolean>(false);
   const [showModal, setShowModal] = useState<boolean>(false);
@@ -49,14 +54,17 @@ const Message: React.FC<MessageProps> = ({ route, navigation }) => {
   const [showMessage, setShowMessage] = useState<string>('');
   const [messageId, setMessageId] = useState<string>('');
   const [personChat, setPersonChat] = useState<User[]>([]);
-  const [showDeleteChatModal, setShowDeleteChatModal] = useState<boolean>(false);
+  const [showDeleteChatModal, setShowDeleteChatModal] =
+    useState<boolean>(false);
   const [showEmojiModal, setShowEmojiModal] = useState<boolean>(false);
-  const [selectedEmoji, setSelectedEmoji] = useState<string>('$');
-  const { color, profileImg, name, id } = user;
+  const [selectedEmoji, setSelectedEmoji] = useState<string>('');
+  const {color,name, id} = user;
   const chatId = user.id;
   const [messages, setMessages] = useState<IMessage[]>([]);
   const refRBSheet = useRef<RBSheet>(null);
 
+  const name1 = name.split(' ');
+  const name2 = name1[0][0] + name1[1][0]
   useEffect(() => {
     const loadMessages = async () => {
       const storedMessages = await AsyncStorage.getItem(`messages_${chatId}`);
@@ -84,7 +92,10 @@ const Message: React.FC<MessageProps> = ({ route, navigation }) => {
   const onSend = async (newMessages: IMessage[] = []) => {
     setMessages(previousMessages => {
       const updatedMessages = GiftedChat.append(previousMessages, newMessages);
-      AsyncStorage.setItem(`messages_${chatId}`, JSON.stringify(updatedMessages));
+      AsyncStorage.setItem(
+        `messages_${chatId}`,
+        JSON.stringify(updatedMessages),
+      );
       storeChatUser(user);
       return updatedMessages;
     });
@@ -92,7 +103,9 @@ const Message: React.FC<MessageProps> = ({ route, navigation }) => {
 
   const storeChatUser = async (user: User) => {
     const storedChatUsers = await AsyncStorage.getItem('chatUsers');
-    const chatUsers: User[] = storedChatUsers ? JSON.parse(storedChatUsers) : [];
+    const chatUsers: User[] = storedChatUsers
+      ? JSON.parse(storedChatUsers)
+      : [];
 
     const userExists = chatUsers.find(u => u.id === user.id);
     if (!userExists) {
@@ -112,8 +125,13 @@ const Message: React.FC<MessageProps> = ({ route, navigation }) => {
     const messagesArray: IMessage[] = JSON.parse(storedMessages || '[]');
 
     if (Array.isArray(messagesArray)) {
-      const updatedMessagesArray = messagesArray.filter(message => message._id !== id);
-      await AsyncStorage.setItem(`messages_${chatId}`, JSON.stringify(updatedMessagesArray));
+      const updatedMessagesArray = messagesArray.filter(
+        message => message._id !== id,
+      );
+      await AsyncStorage.setItem(
+        `messages_${chatId}`,
+        JSON.stringify(updatedMessagesArray),
+      );
       setToggle(!toggle);
     }
   };
@@ -124,7 +142,9 @@ const Message: React.FC<MessageProps> = ({ route, navigation }) => {
     const chatArray: User[] = JSON.parse(storedChatUsers || '[]');
 
     if (Array.isArray(chatArray)) {
-      const updatedChatArray = chatArray.filter(chatUser => chatUser.id !== user.id);
+      const updatedChatArray = chatArray.filter(
+        chatUser => chatUser.id !== user.id,
+      );
       await AsyncStorage.setItem('chatUsers', JSON.stringify(updatedChatArray));
     }
 
@@ -141,15 +161,17 @@ const Message: React.FC<MessageProps> = ({ route, navigation }) => {
             avatar: 'https://placeimg.com/140/140/any',
           },
         },
-      ])
+      ]),
     );
 
     navigation.navigate('BottomNavigation', 'Menu');
   };
 
   const handleModal = (message: IMessage) => {
+    console.log('message23', message);
     if (message) {
       setShowModal(true);
+      setPersonChat(message);
       setShowMessage(message.text);
       setMessageId(message._id);
     }
@@ -171,19 +193,23 @@ const Message: React.FC<MessageProps> = ({ route, navigation }) => {
 
   const renderActions = useCallback(() => {
     return (
-      <TouchableOpacity style={{ alignSelf: 'center', marginLeft: 10 }}>
+      <TouchableOpacity style={{alignSelf: 'center', marginLeft: 10}}>
         <Image source={icon.plusmessage} style={styles.plusmessage} />
       </TouchableOpacity>
     );
   }, []);
 
-  const renderMessage = (props: { currentMessage: IMessage }) => {
-    const { currentMessage } = props;
+  const renderMessage = (props: {currentMessage: IMessage}) => {
+    const {currentMessage} = props;
+    // console.log('currentmessage23',currentMessage)
     const isUserMessage = currentMessage.user._id === 1;
-    const messageTime = new Date(currentMessage.createdAt).toLocaleTimeString([], {
-      hour: '2-digit',
-      minute: '2-digit',
-    });
+    const messageTime = new Date(currentMessage.createdAt).toLocaleTimeString(
+      [],
+      {
+        hour: '2-digit',
+        minute: '2-digit',
+      },
+    );
     return (
       <>
         <TouchableOpacity
@@ -198,32 +224,31 @@ const Message: React.FC<MessageProps> = ({ route, navigation }) => {
             paddingHorizontal: 15,
             paddingVertical: 10,
             position: 'relative',
-          }}
-        >
+          }}>
           <Text
             style={{
               color: isUserMessage ? 'white' : 'black',
               fontSize: 16,
               fontFamily: family.medium,
-            }}
-          >
+            }}>
             {currentMessage.text}
           </Text>
-          {currentMessage.avatar && (
+          {currentMessage.avatar ? (
             <View
               style={{
                 top: -12,
                 position: 'absolute',
-                left: isUserMessage ? -12 : 50,
+                left: isUserMessage ? -20 : 50,
                 padding: 5,
                 backgroundColor: 'white',
                 borderRadius: 10,
-              }}
-            >
-              <Text style={{ color: isUserMessage ? 'white' : 'black' }}>
+              }}>
+              <Text style={{color: isUserMessage ? 'white' : 'black'}}>
                 {currentMessage.avatar}
               </Text>
             </View>
+          ) : (
+            <></>
           )}
         </TouchableOpacity>
         <Text
@@ -233,27 +258,40 @@ const Message: React.FC<MessageProps> = ({ route, navigation }) => {
             fontSize: 10,
             color: 'black',
             textAlign: isUserMessage ? 'right' : 'left',
-          }}
-        >
+          }}>
           {messageTime}
         </Text>
       </>
     );
   };
 
-  const handleEmojiPress = (emoji: string) => {
+  const handleEmojiPress = async (emoji: string) => {
     if (messageId) {
-      setMessages(previousMessages => {
-        return previousMessages.map(msg => {
+      setMessages((previousMessages) => {
+        const updatedChat = previousMessages.map(msg => {
           if (msg._id === messageId) {
             return {
               ...msg,
               text: `${msg.text}`,
-              avatar: `${emoji}`,
+              avatar:
+                msg.avatar === emoji
+                  ? null
+                  : emoji,
+              
+              
             };
           }
+     
           return msg;
         });
+        
+        
+                AsyncStorage.setItem(
+                  `messages_${chatId}`,
+                  JSON.stringify(updatedChat),
+                );
+                console.log(updatedChat)
+                return updatedChat;
       });
     }
     setShowModal(false);
@@ -262,7 +300,7 @@ const Message: React.FC<MessageProps> = ({ route, navigation }) => {
   const renderSend = (props: any) => {
     return (
       <TouchableOpacity
-        style={{ alignSelf: 'center', paddingHorizontal: 10 }}
+        style={{alignSelf: 'center', paddingHorizontal: 10}}
         onPress={() => {
           const messageText = props?.text;
           if (messageText && messageText.trim()) {
@@ -280,8 +318,7 @@ const Message: React.FC<MessageProps> = ({ route, navigation }) => {
               },
             ]);
           }
-        }}
-      >
+        }}>
         <Image source={icon.sendicon} style={styles.sendicon} />
       </TouchableOpacity>
     );
@@ -294,13 +331,12 @@ const Message: React.FC<MessageProps> = ({ route, navigation }) => {
           <View style={styles.headerContent}>
             <TouchableOpacity
               style={styles.backButton}
-              onPress={() => navigation.goBack()}
-            >
+              onPress={() => navigation.goBack()}>
               <Image source={icon.backarrowblack} style={styles.backArrow} />
             </TouchableOpacity>
             <View style={styles.userInfo}>
-              <View style={[styles.profileImg, { backgroundColor: color }]}>
-                <Text style={styles.profileText}>{profileImg}</Text>
+              <View style={[styles.profileImg, {backgroundColor: color}]}>
+                <Text style={styles.profileText}>{name2}</Text>
               </View>
               <View style={styles.userDetails}>
                 <Text style={styles.userName}>{name}</Text>
@@ -310,8 +346,7 @@ const Message: React.FC<MessageProps> = ({ route, navigation }) => {
           </View>
           <TouchableOpacity
             style={styles.notificationContainer}
-            onPress={() => refRBSheet.current?.open()}
-          >
+            onPress={() => refRBSheet.current?.open()}>
             <Image source={icon.dot} style={styles.notificationIcon} />
           </TouchableOpacity>
         </View>
@@ -320,7 +355,7 @@ const Message: React.FC<MessageProps> = ({ route, navigation }) => {
         <GiftedChat
           messages={messages}
           onSend={messages => onSend(messages)}
-          user={{ _id: 1 }}
+          user={{_id: 1}}
           placeholder="Message..."
           textInputStyle={{
             backgroundColor: '#FFFFFF',
@@ -331,7 +366,8 @@ const Message: React.FC<MessageProps> = ({ route, navigation }) => {
             <InputToolbar
               containerStyle={{
                 backgroundColor: '#F8F9F9',
-                paddingBottom: Platform.OS === 'ios' ? (width > 400 ? 50 : 20) : 30,
+                paddingBottom:
+                  Platform.OS === 'ios' ? (width > 400 ? 50 : 20) : 30,
                 paddingTop: 10,
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -369,7 +405,7 @@ const Message: React.FC<MessageProps> = ({ route, navigation }) => {
         }
         useNativeDriver={false}
         dragOnContent={true}
-        style={{ overflow: 'hidden' }}
+        style={{overflow: 'hidden'}}
         customStyles={{
           container: {
             borderTopEndRadius: 30,
@@ -381,8 +417,7 @@ const Message: React.FC<MessageProps> = ({ route, navigation }) => {
           draggableIcon: {
             backgroundColor: '#000',
           },
-        }}
-      >
+        }}>
         <View style={styles.RBContainer}>
           <DropDownContent
             icon={icon.eye}
@@ -395,7 +430,7 @@ const Message: React.FC<MessageProps> = ({ route, navigation }) => {
           <DropDownContent
             icon={icon.pin}
             text="Pin Chart"
-            stylesme={{ height: 23, width: 16, marginLeft: 4 }}
+            stylesme={{height: 23, width: 16, marginLeft: 4}}
           />
           <DropDownContent
             icon={icon.search}
@@ -427,11 +462,10 @@ const Message: React.FC<MessageProps> = ({ route, navigation }) => {
           margin: 0,
           backgroundColor: 'transparent',
         }}
-        onBackdropPress={() => setShowModal(false)}
-      >
+        onBackdropPress={() => setShowModal(false)}>
         <View style={styles.modalOverlay}>
           <View style={styles.modalContainer}>
-            <Text style={{ fontFamily: family.medium }}>{showMessage}</Text>
+            <Text style={{fontFamily: family.medium}}>{showMessage}</Text>
           </View>
           <View style={styles.modalContainer2}>
             <View>

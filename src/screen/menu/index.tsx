@@ -47,7 +47,7 @@ const Menu: React.FC<MenuProps> = ({ navigation }) => {
 
   useEffect(() => {
     loadChatUsers();
-  }, [storedchats]);
+  }, []);
 
   const functionfilter = (query: string) => {
     if (query.length > 0) {
@@ -104,11 +104,12 @@ const Menu: React.FC<MenuProps> = ({ navigation }) => {
               <View style={styles.FlatListMainContainer}>
                 <FlatList
                   data={filtersearch}
+
                   bounces={false}
                   renderItem={({ item }) => (
                     <Contact item={item} onPress={() => handleNavigation(item)} />
                   )}
-                  keyExtractor={(item, index) => index.toString()} // Add a key extractor
+                  keyExtractor={(item, index) => index.toString()}
                 />
               </View>
             ) : (
