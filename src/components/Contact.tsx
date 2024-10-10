@@ -7,7 +7,7 @@ import {
   Platform,
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
-import family from '../assets/fonts/index';
+import { family } from '../assets';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const width = Dimensions.get('screen').width;
@@ -23,10 +23,11 @@ interface ContactItem {
 interface ContactProps {
   onPress: () => void;
   item: ContactItem;
+  showlast : string;
 }
 
-const Contact: React.FC<ContactProps> = ({ onPress, item }) => {
-
+const Contact = (props:ContactProps) => {
+const {onPress, item , showlast}=props
   const [lastText, setlastText] = useState('')
   const name = item.name.split(' ');
   const name2 = name[0][0] + name[1][0]
@@ -36,9 +37,7 @@ const Contact: React.FC<ContactProps> = ({ onPress, item }) => {
     const handlemessage =async() =>{
       const storedMessages = await AsyncStorage.getItem(`messages_${item.id}`);
       const chat: ChatUser[] = JSON.parse(storedMessages);
-      // console.log('text------->',chat[0].text)
       setlastText(chat[0].text)
-
     }
     handlemessage();
   }, []);
@@ -52,7 +51,7 @@ const Contact: React.FC<ContactProps> = ({ onPress, item }) => {
       </View>
         <View >
           <Text style={styles.text2}>{item.name}</Text>
-          <Text style={styles.text3}>{lastText ? lastText : 'Start Chat'}</Text>
+          {showlast &&<Text style={styles.text3}>{lastText ? lastText : 'Start Chat'}</Text>}
         </View>
     </TouchableOpacity>
   );
@@ -66,16 +65,21 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
     borderBottomWidth: 1,
     borderBlockColor: 'lightgrey',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     justifyContent: 'flex-start',
+    
   },
   profileImg: {
-    borderRadius: 100,
-    padding: 15,
+    borderRadius: 25,
+    // padding: 15,
+    height:50,
+    width:50,
+    justifyContent:'center',
+    alignSelf:'center'
   },
   container2: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-start',
     
     width: Platform.OS === 'ios' ? (width > 400 ? '20%' : '25%') : '20%',
   },
@@ -84,6 +88,8 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 16,
     fontFamily: family.Bold,
+    justifyContent:'center',
+    alignSelf:'center'
   },
   text2: {
     marginBottom: 10,

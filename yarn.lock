@@ -4656,6 +4656,11 @@ react-native-communications@^2.2.1:
   resolved "https://registry.npmjs.org/react-native-communications/-/react-native-communications-2.2.1.tgz"
   integrity sha512-5+C0X9mopI0+qxyQHzOPEi5v5rxNBQjxydPPiKMQSlX1RBIcJ8uTcqUPssQ9Mo8p6c1IKIWJUSqCj4jAmD0qVQ==
 
+react-native-contacts@^8.0.1:
+  version "8.0.1"
+  resolved "https://registry.npmjs.org/react-native-contacts/-/react-native-contacts-8.0.1.tgz"
+  integrity sha512-UWjtWaBUcaVoTNveVbH8v+q5iWNPm1F881gTDBsxelwZeSBD6KCa1MKynJnCNO1dOaIlMbZx+oF6Cc/44UrA5A==
+
 react-native-get-random-values@*, react-native-get-random-values@^1.11.0:
   version "1.11.0"
   resolved "https://registry.npmjs.org/react-native-get-random-values/-/react-native-get-random-values-1.11.0.tgz"

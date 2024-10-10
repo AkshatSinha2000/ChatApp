@@ -2,25 +2,22 @@ import {
   Dimensions,
   Image,
   Pressable,
-  StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
   View,
-  ScrollView,
   FlatList,
-} from 'react-native';
-import styles from './Styles';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { SafeAreaView } from 'react-native';
-import icon from '../../assets/icon/index';
+}from 'react-native';
+import styles from './styles.tsx';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
+import {SafeAreaView} from 'react-native';
+import {icon} from '../../assets/index.ts';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Contact from '../../components/Contact';
 
 interface ChatUser {
   name: string;
-
 }
 
 interface MenuProps {
@@ -29,7 +26,7 @@ interface MenuProps {
   };
 }
 
-const Menu: React.FC<MenuProps> = ({ navigation }) => {
+const Menu: React.FC<MenuProps> = ({navigation}) => {
   const [storedchats, setStoredChats] = useState<ChatUser[]>([]);
   const [searchfilter, setSearchFilter] = useState<string>('');
   const [filtersearch, setFilterSearch] = useState<ChatUser[]>([]);
@@ -47,7 +44,7 @@ const Menu: React.FC<MenuProps> = ({ navigation }) => {
 
   useEffect(() => {
     loadChatUsers();
-  }, []);
+  }, [storedchats]);
 
   const functionfilter = (query: string) => {
     if (query.length > 0) {
@@ -67,9 +64,12 @@ const Menu: React.FC<MenuProps> = ({ navigation }) => {
   };
 
   const refRBSheet = useRef<RBSheet>(null);
-  const handleNavigation = useCallback((item: ChatUser) => {
-    navigation.navigate('Message', { data: item });
-  }, [navigation]);
+  const handleNavigation = useCallback(
+    (item: ChatUser) => {
+      navigation.navigate('Message', {data: item});
+    },
+    [navigation],
+  );
 
   return (
     <>
@@ -104,10 +104,14 @@ const Menu: React.FC<MenuProps> = ({ navigation }) => {
               <View style={styles.FlatListMainContainer}>
                 <FlatList
                   data={filtersearch}
-
-                  bounces={false}
-                  renderItem={({ item }) => (
-                    <Contact item={item} onPress={() => handleNavigation(item)} />
+                  showsVerticalScrollIndicator={false}
+          bounces={false}
+                  renderItem={({item}) => (
+                    <Contact
+                      item={item}
+                      onPress={() => handleNavigation(item)}
+                      showlast = {true}
+                    />
                   )}
                   keyExtractor={(item, index) => index.toString()}
                 />
@@ -121,10 +125,10 @@ const Menu: React.FC<MenuProps> = ({ navigation }) => {
             <View style={styles.FlatListMainContainer}>
               <FlatList
                 data={storedchats}
-                renderItem={({ item }) => (
-                  <Contact item={item} onPress={() => handleNavigation(item)} />
+                renderItem={({item}) => (
+                  <Contact item={item} onPress={() => handleNavigation(item)} showlast = {true}/>
                 )}
-                keyExtractor={(item, index) => index.toString()} // Add a key extractor
+                keyExtractor={(item, index) => index.toString()} 
               />
             </View>
           )
@@ -133,8 +137,8 @@ const Menu: React.FC<MenuProps> = ({ navigation }) => {
             <View>
               <Image source={icon.nochat} style={styles.nochat} />
               <Pressable
-                style={({ pressed }) => [
-                  { backgroundColor: pressed ? '#2A7BBB' : '#2A7BBB' },
+                style={({pressed}) => [
+                  {backgroundColor: pressed ? '#2A7BBB' : '#2A7BBB'},
                   styles.pressable,
                 ]}
                 onPress={() => refRBSheet.current?.open()}>
@@ -154,7 +158,7 @@ const Menu: React.FC<MenuProps> = ({ navigation }) => {
         height={Dimensions.get('window').height / 6}
         useNativeDriver={false}
         dragOnContent={true}
-        style={{ overflow: 'hidden' }}
+        style={{overflow: 'hidden'}}
         customStyles={{
           container: {
             borderTopEndRadius: 30,

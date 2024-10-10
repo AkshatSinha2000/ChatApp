@@ -7,17 +7,15 @@ import {
   Animated,
 } from 'react-native';
 import React, {Component, useEffect, useState} from 'react';
-import family from '../../assets/fonts';
-import icon from '../../assets/icon/index';
-import {NavigationProp} from '@react-navigation/native';
+import styles from './styles'
+import { icon } from '../../assets';
+import {NavigationProp, useNavigation} from '@react-navigation/native';
 
 const width = Dimensions.get('screen').width;
 
-interface SplashProps {
-  navigation: NavigationProp<any>;
-}
 
-export function Splash({navigation}) {
+export function Splash() {
+  const navigation  = useNavigation()
   const leftValue = useState(new Animated.Value(0))[0];
   const TextValue = useState(new Animated.Value(0))[0];
 
@@ -40,7 +38,10 @@ export function Splash({navigation}) {
     moveImage();
     moveText();
     setTimeout(() => {
-      navigation.navigate('BottomNavigation', 'Menu');
+      navigation.reset({
+        index : 0,
+        routes:[{name  : 'BottomNavigation'}]
+      })
     }, 3000);
   }, []);
 
@@ -62,26 +63,3 @@ export function Splash({navigation}) {
 
 export default Splash;
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#FFFFFF',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  image:{
-    height: 20, 
-    width: 20,
-    marginBottom: 20,
-  },
-  text:{
-    fontSize: 24,
-    fontFamily: family.Bold
-  },
-
-  Quivio: {
-    padding: 80,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-});

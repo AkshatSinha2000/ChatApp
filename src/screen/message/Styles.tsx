@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
   modalContainer: {
     marginHorizontal:15,
     paddingVertical:15,
-    borderRadius:10,
+    borderRadius:15,
     marginVertical:10,
     paddingHorizontal:20,
     backgroundColor: 'white',
@@ -152,6 +152,43 @@ const styles = StyleSheet.create({
   modalButtonText:{
     color:'white'
   },
+  messageContainer:{
+    borderRadius: 10,
+    maxWidth: '80%',
+    marginHorizontal: 15,
+    marginBottom: 10,
+    paddingHorizontal: 15,
+    paddingVertical: 10,
+    position: 'relative',
+  },
+  messagetext:{
+    fontSize: 16,
+    fontFamily: family.medium
+  },
+  avtarContainer:{
+    top: -12,
+    position: 'absolute',
+    
+    padding: 5,
+    backgroundColor: 'white',
+    borderRadius: 10,
+  },
+  time:{
+    marginTop: 10,
+    marginHorizontal: 20,
+    fontSize: 10,
+    color: 'black'
+  },
+  textInputStyle:{
+    backgroundColor: '#FFFFFF',
+    paddingHorizontal: 10,
+    fontFamily: family.medium,
+  },
+  modal:{
+    justifyContent: 'flex-end',
+    margin: 0,
+    backgroundColor: 'transparent',
+  }
 });
 
 

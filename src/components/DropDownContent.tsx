@@ -1,6 +1,6 @@
 import { StyleSheet, Text, TouchableOpacity, View, Image, ImageSourcePropType } from 'react-native';
 import React from 'react';
-import family from '../assets/fonts';
+import {family} from '../assets';
 
 
 interface DropDownContentProps {
@@ -8,12 +8,12 @@ interface DropDownContentProps {
   text: string;        
   stylesme?: object;        
   deletetext?: boolean;  
-  onPress?: () => void;       
+  onPress?: () => void | null;       
 }
 
-const DropDownContent: React.FC<DropDownContentProps> = ({ icon, text, stylesme, deletetext, onPress }) => {
+const DropDownContent = ({ icon, text, stylesme, deletetext, onPress }:DropDownContentProps) => {
   return (
-    <TouchableOpacity style={styles.RBContainer2} onPress={onPress}>
+    <TouchableOpacity style={styles.RBContainer2} onPress={deletetext ? onPress : null}>
       <View>
         <Image source={icon} style={stylesme ? stylesme : styles.image} />
       </View>

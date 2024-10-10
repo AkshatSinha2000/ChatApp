@@ -1,10 +1,10 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Home from '../../screen/home/home';
-import Account from '../../screen/account/Account';
+import Account from '../../screen/account/account';
 import FAVOURITES from '../../screen/favourite/favourites';
 import Menu from '../../screen/menu';
 import { Image } from 'react-native';
-import icon from '../../assets/icon/index'
+import { icon } from '../../assets';
 
 const Tab = createBottomTabNavigator();
 

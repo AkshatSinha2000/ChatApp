@@ -1,5 +1,5 @@
 import {Dimensions, Platform, StyleSheet} from 'react-native';
-import family from '../../assets/fonts/index';
+import {family} from '../../assets';
 const width = Dimensions.get('screen').width
 
 const styles = StyleSheet.create({
