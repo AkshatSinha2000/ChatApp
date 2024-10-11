@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   View,
   FlatList,
-}from 'react-native';
+} from 'react-native';
 import styles from './styles.tsx';
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {SafeAreaView} from 'react-native';
@@ -15,6 +15,9 @@ import {icon} from '../../assets/index.ts';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Contact from '../../components/Contact';
+import firebase from '@react-native-firebase/app';
+import firestore from '@react-native-firebase/firestore';
+// import {db} from '../../Firebase.js';
 
 interface ChatUser {
   name: string;
@@ -44,7 +47,53 @@ const Menu: React.FC<MenuProps> = ({navigation}) => {
 
   useEffect(() => {
     loadChatUsers();
-  }, [storedchats]);
+    firestore()
+    .collection('users')
+    .doc('ZXnllFhpevYBEIEQ3mqj')
+    .set({
+      name: 'Ada Lovelace',
+      age: 32,
+    })
+    .then((response) => {
+      console.log('User added!', response);
+    });
+    const bas = async()=>{
+      const user = await firestore().collection('users').doc('ZXnllFhpevYBEIEQ3mqj').get();
+      console.log('User----------->',user)
+    }
+    bas()
+    // console.log('first')
+    // const krishna = async()=>{
+    //   console.log('helo')
+    // const userRef = doc(db, 'users', String('ZXnllFhpevYBEIEQ3mqj'));
+    // console.log("User Reference:", userRef);
+    // const userSnapshot = await getDoc(userRef)
+    // }
+    // krishna()
+
+    // const userData = {
+    //   _id: 1,
+    //   _name: 'Alice Smith',
+    //   _profileImg: 'AS',
+    //   color: '#800000',
+    // };
+
+  //   saveUserData('documentid', userData);
+  }, []);
+
+  // async function saveUserData(
+  //   userId: string,
+  //   user: {_id: number; _name: string; _profileImg: string; color: string},
+  // ) {
+  //   try {
+  //     console.log('Check----------->', db);
+  //     const userRef = doc(db, 'users', userId); // Create a reference to the document
+  //     await setDoc(userRef, {user}); // Save the user data
+  //     console.log('User data saved successfully!');
+  //   } catch (error) {
+  //     console.error('Error saving user data: ', error);
+  //   }
+  // }
 
   const functionfilter = (query: string) => {
     if (query.length > 0) {
@@ -105,12 +154,12 @@ const Menu: React.FC<MenuProps> = ({navigation}) => {
                 <FlatList
                   data={filtersearch}
                   showsVerticalScrollIndicator={false}
-          bounces={false}
+                  bounces={false}
                   renderItem={({item}) => (
                     <Contact
                       item={item}
                       onPress={() => handleNavigation(item)}
-                      showlast = {true}
+                      showlast={true}
                     />
                   )}
                   keyExtractor={(item, index) => index.toString()}
@@ -126,9 +175,13 @@ const Menu: React.FC<MenuProps> = ({navigation}) => {
               <FlatList
                 data={storedchats}
                 renderItem={({item}) => (
-                  <Contact item={item} onPress={() => handleNavigation(item)} showlast = {true}/>
+                  <Contact
+                    item={item}
+                    onPress={() => handleNavigation(item)}
+                    showlast={true}
+                  />
                 )}
-                keyExtractor={(item, index) => index.toString()} 
+                keyExtractor={(item, index) => index.toString()}
               />
             </View>
           )
